@@ -3,28 +3,26 @@ import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
-        int[] com = random3Num();
-
-        System.out.print("랜덤확인");
-        for(int i=0; i<3; i++){
-            System.out.print(com[i]);
-        }
-        System.out.println();
-
-        while(true) {
-            int[] user = userInput();
-
-//            System.out.print("입력확인");
-//            for(int i=0; i<3; i++){
-//                System.out.print(user[i]);
-//            }
-//            System.out.println();
-
-            if (isAnswer(com, user)) {
-                break;
+        while(true){
+            int[] com = random3Num();
+            System.out.print("랜덤확인 : ");
+            for(int i=0; i<3; i++){
+                System.out.print(com[i]);
             }
-            else{
-                printBallStrike(com, user);
+            System.out.println();
+            while(true) {
+                int[] user = userInput();
+
+                if (isAnswer(com, user)) {
+                    break;
+                }
+                else{
+                    printBallStrike(com, user);
+                }
+            }
+            System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
+            if(!restart()){
+                break;
             }
         }
     }
@@ -162,6 +160,25 @@ public class Application {
         }
         else{
             System.out.println(ball + "볼 " + strike + "스트라이크");
+        }
+    }
+
+    /**
+     * 다시 시작할 것인지 사용자의 입력을 받아 판단한다.
+     * @return 재시작 여부
+     */
+    public static boolean restart(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요");
+        int restart = input.nextInt();
+        if (restart == 1) {
+            return true;
+        }
+        if (restart == 2) {
+            return false;
+        }
+        else {
+            throw new IllegalStateException("잘못된 입력입니다.");
         }
     }
 }
