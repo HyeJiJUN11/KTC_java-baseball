@@ -5,11 +5,11 @@ public class Application {
     public static void main(String[] args) {
         int[] com = random3Num();
 
-//        System.out.print("랜덤확인");
-//        for(int i=0; i<3; i++){
-//            System.out.print(com[i]);
-//        }
-//        System.out.println();
+        System.out.print("랜덤확인");
+        for(int i=0; i<3; i++){
+            System.out.print(com[i]);
+        }
+        System.out.println();
 
         while(true) {
             int[] user = userInput();
@@ -20,6 +20,12 @@ public class Application {
 //            }
 //            System.out.println();
 
+            if (isAnswer(com, user)) {
+                break;
+            }
+            else{
+                printBallStrike(com, user);
+            }
         }
     }
 
@@ -82,6 +88,80 @@ public class Application {
         }
         else{
             throw new IllegalStateException("잘못된 입력입니다. (입력은 숫자입니다.)");
+        }
+    }
+
+    /**
+     * 정답이 맞는지 확인한다.
+     * @param com 랜덤 배열
+     * @param user 사용자 입력 배열
+     * @return 정답 여부
+     */
+    public static boolean isAnswer(int[] com, int[] user){
+        for(int i=0; i<3; i++){
+            if(com[i] != user[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 스트라이크 개수를 구한다.
+     * @param com 랜덤 숫자 배열
+     * @param user 사용자 입력 배열
+     * @return 스트라이크 개수
+     */
+    public static int strike(int[] com, int[] user){
+        int strickNum = 0;
+
+        for(int i=0; i<3; i++){
+            if(com[i] == user[i]){
+                strickNum++;
+            }
+        }
+
+        return strickNum;
+    }
+
+    /**
+     * 볼 개수를 구한다.
+     * @param com 랜덤 숫자 배열
+     * @param user 자용자 입력 배열
+     * @return 불 개수
+     */
+    public static int ball(int[] com , int[] user){
+        int ball = 0;
+        for(int i = 0; i<3; i++){
+            for(int j=0; j<3; j++){
+                if(com[i] == user[j]){
+                    ball++;
+                }
+            }
+        }
+        ball = ball - strike(com, user);
+        return ball;
+    }
+
+    /**
+     * 스트라이크, 볼 갯수를 출력한다.
+     * @param com 랜덤 숫자 배열
+     * @param user 사용자 입력 배열
+     */
+    public  static void printBallStrike(int[] com, int[] user){
+        int strike = strike(com, user);
+        int ball = ball(com, user);
+        if(strike == 0 && ball == 0){
+            System.out.println("낫싱");
+        }
+        else if(strike == 0){
+            System.out.println(ball + "볼");
+        }
+        else if(ball == 0){
+            System.out.println(strike + "스트라이크");
+        }
+        else{
+            System.out.println(ball + "볼 " + strike + "스트라이크");
         }
     }
 }
