@@ -3,27 +3,37 @@ import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
-        while(true){
+        boolean round = true;
+        while(round){
             int[] com = random3Num();
-            System.out.print("랜덤확인 : ");
-            for(int i=0; i<3; i++){
-                System.out.print(com[i]);
-            }
-            System.out.println();
-            while(true) {
-                int[] user = userInput();
-
-                if (isAnswer(com, user)) {
-                    break;
-                }
-                else{
-                    printBallStrike(com, user);
-                }
+            boolean game = true;
+//            System.out.print("랜덤확인 : ");
+//            for(int i=0; i<3; i++){
+//                System.out.print(com[i]);
+//            }
+//            System.out.println();
+            while(game) {
+                game = gamming(com);
             }
             System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
-            if(!restart()){
-                break;
-            }
+            round = restart();
+        }
+    }
+
+    /**
+     * 게임을 진행한다
+     * @param com 랜덤 배열
+     * @return 틀리면 true(계속진행), 맞으면 false(종료)
+     */
+    private static boolean gamming(int[] com) {
+        int[] user = userInput();
+
+        if (isAnswer(com, user)) {
+            return false;
+        }
+        else{
+            printBallStrike(com, user);
+            return true;
         }
     }
 
@@ -118,7 +128,6 @@ public class Application {
                 strickNum++;
             }
         }
-
         return strickNum;
     }
 
@@ -170,11 +179,11 @@ public class Application {
     public static boolean restart(){
         Scanner input = new Scanner(System.in);
         System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요");
-        int restart = input.nextInt();
-        if (restart == 1) {
+        String restart = input.next();
+        if (restart.equals("1")) {
             return true;
         }
-        if (restart == 2) {
+        if (restart.equals("2")) {
             return false;
         }
         else {
